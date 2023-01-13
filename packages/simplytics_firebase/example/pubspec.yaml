@@ -1,0 +1,35 @@
+name: simplytics_firebase_example
+description: Simplytics Firebase example.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.5 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  simplytics:
+    path: ../../simplytics
+  simplytics_firebase:
+    path: ../
+  firebase_core: ^2.4.1
+  firebase_analytics: ^10.1.0
+  firebase_crashlytics: ^3.0.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+dependency_overrides:
+  simplytics:
+    path: ../../simplytics
+  simplytics_firebase:
+    path: ../
+
+flutter:
+  uses-material-design: true
+

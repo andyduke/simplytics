@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "name": "Simplytics package",
+      "path": "packages/simplytics"
+    },
+    {
+      "name": "Simplytics Firebase package",
+      "path": "packages/simplytics_firebase"
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+      "Gruntfuggly.triggertaskonsave"
+    ],
+  },
+  "settings": {
+    "triggerTaskOnSave.tasks": {
+      "Build l10n": [
+          "*.arb"
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+name: simplytics
+description: Lightweight Analytics and Crash Reporting abstraction.
+version: 1.0.0
+author: Andy Chentsov <chentsov@gmail.com>
+homepage: https://github.com/andyduke/simplytics/tree/master/packages/simplytics
+repository: https://github.com/andyduke/simplytics
+issue_tracker: https://github.com/andyduke/simplytics/issues
+
+environment:
+  sdk: '>=2.18.5 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+
