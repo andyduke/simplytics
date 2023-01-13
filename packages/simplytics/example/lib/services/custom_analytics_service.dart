@@ -17,13 +17,16 @@ class CustomAnalyticsService implements SimplyticsAnalyticsInterface {
   }
 
   @override
-  Future<void> setCurrentScreen({required String name, String? screenClassOverride}) async {
+  Future<void> routeStart({required String name, String? screenClassOverride}) async {
     developer.log(
       '•• Current Screen: $name${(screenClassOverride != null) ? ' ($screenClassOverride)' : ''}',
       name: 'Custom Analytics',
       level: 1,
     );
   }
+
+  @override
+  Future<void> routeEnd({required String name}) async {}
 
   @override
   Future<void> setUserId(String? id) async {

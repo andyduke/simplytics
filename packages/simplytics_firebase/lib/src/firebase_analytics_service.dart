@@ -17,9 +17,12 @@ class SimplyticsFirebaseAnalyticsService implements SimplyticsAnalyticsInterface
   }
 
   @override
-  Future<void> setCurrentScreen({required String name, String? screenClassOverride}) {
+  Future<void> routeStart({required String name, String? screenClassOverride}) {
     return analytics.setCurrentScreen(screenName: name, screenClassOverride: screenClassOverride ?? 'Flutter');
   }
+
+  @override
+  Future<void> routeEnd({required String name}) async {}
 
   @override
   Future<void> setUserId(String? id) {

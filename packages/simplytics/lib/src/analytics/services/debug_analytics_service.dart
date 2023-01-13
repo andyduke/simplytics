@@ -26,10 +26,21 @@ class SimplyticsDebugAnalyticsService implements SimplyticsAnalyticsInterface {
   }
 
   @override
-  Future<void> setCurrentScreen({required String name, String? screenClassOverride}) async {
+  Future<void> routeStart({required String name, String? screenClassOverride}) async {
     if (enabled) {
       developer.log(
-        '• Current Screen: $name${(screenClassOverride != null) ? ' ($screenClassOverride)' : ''}',
+        '• Enter route: $name${(screenClassOverride != null) ? ' ($screenClassOverride)' : ''}',
+        name: _serviceName,
+        level: 1,
+      );
+    }
+  }
+
+  @override
+  Future<void> routeEnd({required String name}) async {
+    if (enabled) {
+      developer.log(
+        '• Exit route: $name',
         name: _serviceName,
         level: 1,
       );

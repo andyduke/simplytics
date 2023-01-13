@@ -29,41 +29,69 @@ class SimplyticsNavigatorObserver extends NavigatorObserver {
   final RouteFilter routeFilter;
   final void Function(PlatformException error)? _onError;
 
-  void _sendScreenView(Route<dynamic> route) {
+  void _sendRouteStart(Route<dynamic> route) {
     final String? screenName = nameExtractor(route);
     if (screenName != null) {
-      Simplytics.analytics.setCurrentScreen(name: screenName).catchError((Object error) {
-        final onError = _onError;
-        if (onError == null) {
-          debugPrint('$SimplyticsNavigatorObserver: $error');
-        } else {
-          onError(error as PlatformException);
-        }
-      }, test: (Object error) => error is PlatformException);
+      Simplytics.analytics
+          .routeStart(name: screenName)
+          .catchError(_handleAnalyticsErrors, test: (Object error) => error is PlatformException);
+    }
+  }
+
+  void _sendRouteEnd(Route<dynamic> route) {
+    final String? screenName = nameExtractor(route);
+    if (screenName != null) {
+      Simplytics.analytics
+          .routeEnd(name: screenName)
+          .catchError(_handleAnalyticsErrors, test: (Object error) => error is PlatformException);
+    }
+  }
+
+  void _handleAnalyticsErrors(Object error) {
+    final onError = _onError;
+    if (onError == null) {
+      debugPrint('$SimplyticsNavigatorObserver: $error');
+    } else {
+      onError(error as PlatformException);
     }
   }
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
+
+    if (previousRoute != null && routeFilter(previousRoute) && routeFilter(route)) {
+      _sendRouteEnd(previousRoute);
+    }
+
     if (routeFilter(route)) {
-      _sendScreenView(route);
+      _sendRouteStart(route);
     }
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+
+    if (oldRoute != null && routeFilter(oldRoute)) {
+      _sendRouteEnd(oldRoute);
+    }
+
     if (newRoute != null && routeFilter(newRoute)) {
-      _sendScreenView(newRoute);
+      _sendRouteStart(newRoute);
     }
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
+
+    if (routeFilter(route)) {
+      _sendRouteEnd(route);
+    }
+
     if (previousRoute != null && routeFilter(previousRoute) && routeFilter(route)) {
-      _sendScreenView(previousRoute);
+      _sendRouteStart(previousRoute);
     }
   }
 }

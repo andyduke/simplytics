@@ -16,8 +16,13 @@ class SimplyticsAnalyticsServiceGroup implements SimplyticsAnalyticsInterface {
   }
 
   @override
-  Future<void> setCurrentScreen({required String name, String? screenClassOverride}) {
-    return Future.wait(services.map((s) => s.setCurrentScreen(name: name, screenClassOverride: screenClassOverride)));
+  Future<void> routeStart({required String name, String? screenClassOverride}) {
+    return Future.wait(services.map((s) => s.routeStart(name: name, screenClassOverride: screenClassOverride)));
+  }
+
+  @override
+  Future<void> routeEnd({required String name}) {
+    return Future.wait(services.map((s) => s.routeEnd(name: name)));
   }
 
   @override

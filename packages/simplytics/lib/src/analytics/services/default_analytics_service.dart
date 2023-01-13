@@ -8,7 +8,10 @@ class SimplyticsDefaultAnalyticsService implements SimplyticsAnalyticsInterface 
   Future<void> resetAnalyticsData() async {}
 
   @override
-  Future<void> setCurrentScreen({required String name, String? screenClassOverride}) async {}
+  Future<void> routeStart({required String name, String? screenClassOverride}) async {}
+
+  @override
+  Future<void> routeEnd({required String name}) async {}
 
   @override
   Future<void> setUserId(String? id) async {}

@@ -9,10 +9,15 @@ abstract class SimplyticsAnalyticsInterface {
   /// Sets the user [id] of the current user that's logged in.
   Future<void> setUserId(String? id);
 
-  /// Sets the current screen by [name] and possible [screenClassOverride].
-  Future<void> setCurrentScreen({
+  /// Sets the new screen route to [name] and possible [screenClassOverride].
+  Future<void> routeStart({
     required String name,
     String? screenClassOverride,
+  });
+
+  /// Ends the screen route for route [name].
+  Future<void> routeEnd({
+    required String name,
   });
 
   /// Sets a user property by [name] and [value].

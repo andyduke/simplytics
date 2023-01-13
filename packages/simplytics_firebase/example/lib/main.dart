@@ -234,8 +234,8 @@ class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
 
     Simplytics.analytics.setUserId('test_user');
     Simplytics.analytics.setUserProperty(name: 'prop1', value: 'value1');
-    Simplytics.analytics.setCurrentScreen(
-        name: 'Analytics Demo Screen', screenClassOverride: objectRuntimeType(widget, '<optimized out>'));
+    // Simplytics.analytics
+    //     .routeStart(name: 'Analytics Demo Screen', screenClassOverride: objectRuntimeType(widget, '<optimized out>'));
   }
 
   void _logEvent() {
