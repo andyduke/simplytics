@@ -1,5 +1,5 @@
 name: simplytics
-description: Lightweight Analytics and Crash Reporting abstraction.
+description: Simple and lightweight Analytics and Crash Reporting abstraction.
 version: 1.0.0
 author: Andy Chentsov <chentsov@gmail.com>
 homepage: https://github.com/andyduke/simplytics/tree/master/packages/simplytics

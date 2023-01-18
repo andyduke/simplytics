@@ -1,3 +1,3 @@
-# Simpytics
+# Simplytics (**Simp**le ana**lytics**)
 
-Lightweight Analytics and Crash Reporting abstraction.
+Simple and lightweight **Analytics** and **Crash Reporting** abstraction.

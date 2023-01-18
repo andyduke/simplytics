@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:simplytics/simplytics.dart';
 import 'package:simplytics_example/page_route_settings.dart';
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
       WidgetsFlutterBinding.ensureInitialized();
 
       FlutterError.onError = (FlutterErrorDetails details) {
-        // Send to Zone handle
+        // Send to Zone handler
         Zone.current.handleUncaughtError(details.exception, details.stack ?? StackTrace.current);
       };
 
