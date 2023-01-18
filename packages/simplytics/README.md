@@ -61,7 +61,7 @@ Simplytics.setup(
 );
 ```
 
-You can use **Firebase Analytics** and **Crashlytics** with the [simplytics_firebase](https://pub.dev/packages/simplytics_firebase) package:
+For **Firebase Analytics** and **Crashlytics**, you can use pre-built service classes from the [simplytics_firebase](https://pub.dev/packages/simplytics_firebase) package:
 ```dart
   Simplytics.setup(
     analyticsService: SimplyticsFirebaseAnalyticsService(FirebaseAnalytics.instance),
