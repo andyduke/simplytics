@@ -2,11 +2,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:simplytics/src/simplytics.dart';
 
-/// Signature for a function that extracts a screen name from [RouteSettings].
+/// Signature for a function that extracts a screen name from [Route.settings].
 ///
 /// Usually, the route name is not a plain string, and it may contains some
-/// unique ids that makes it difficult to aggregate over them in Firebase
-/// Analytics.
+/// unique ids that makes it difficult to aggregate over them in analytics service.
 typedef ScreenNameExtractor = String? Function(Route<dynamic> route);
 
 String? defaultNameExtractor(Route<dynamic> route) => route.settings.name;

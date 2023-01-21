@@ -11,5 +11,5 @@ class SimplyticsDefaultCrashlogService extends SimplyticsCrashlogInterface {
   Future<void> setCustomKey(String key, Object value) async {}
 
   @override
-  Future<void> setUserId(String identifier) async {}
+  Future<void> setUserId(String id) async {}
 }

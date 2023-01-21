@@ -6,6 +6,7 @@ Simplytics is a simple abstraction for analytics and crash reports that allows y
 
 ## Features
 
+- Easily add a new analytics/error monitoring service or replace an already added one without any changes in the application, only changes in the `Simplytics` settings
 - Send reports on transitions between routes and events to several different analytics services at once
 - Send crash and error reports to several error monitoring services at once
 - Easily debug events and send them to the system log
@@ -24,6 +25,7 @@ Simplytics is a simple abstraction for analytics and crash reports that allows y
 - [Creating your own analytics and error monitoring service classes](#creating-your-own-analytics-and-error-monitoring-service-classes)
   - [Your own analytics service class](#your-own-analytics-service-class)
   - [Your own error monitoring service class](#your-own-error-monitoring-service-class)
+- [Analytics events with type safe parameters](#analytics-events-with-type-safe-parameters)
 
 ## Getting started
 
@@ -63,10 +65,10 @@ Simplytics.setup(
 
 For **Firebase Analytics** and **Crashlytics**, you can use pre-built service classes from the [simplytics_firebase](https://pub.dev/packages/simplytics_firebase) package:
 ```dart
-  Simplytics.setup(
-    analyticsService: SimplyticsFirebaseAnalyticsService(FirebaseAnalytics.instance),
-    crashlogService: SimplyticsFirebaseCrashlogService(FirebaseCrashlytics.instance),
-  );
+Simplytics.setup(
+  analyticsService: SimplyticsFirebaseAnalyticsService(FirebaseAnalytics.instance),
+  crashlogService: SimplyticsFirebaseCrashlogService(FirebaseCrashlytics.instance),
+);
 ```
 
 
@@ -207,11 +209,11 @@ For your own or any other analytics and error monitoring services, you can creat
 
 ### Your own analytics service class
 
-To create your own class for the analytics service, you need to implement the `SimplyticsAnalyticsInterface` interface.
+To create your own class for the analytics service, you need to extends the `SimplyticsAnalyticsInterface` interface.
 
 Here is an example implementation of an analytics service class for **Firebase Analytics** (but you can use a pre-built class from the [simplytics_firebase](https://pub.dev/packages/simplytics_firebase) package):
 ```dart
-class CustomFirebaseAnalyticsService implements SimplyticsAnalyticsInterface {
+class CustomFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
   final FirebaseAnalytics analytics;
 
   CustomFirebaseAnalyticsService(this.analytics);
@@ -276,5 +278,68 @@ class CustomFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   Future<void> setUserId(String identifier) {
     return crashlytics.setUserIdentifier(identifier);
   }
+}
+```
+
+## Analytics events with type safe parameters
+
+You can create your own event classes with type safe parameters and use them when dispatching events:
+```dart
+Simplytics.analytics.log(PostScoreEvent(score: 7));
+```
+
+To do this, extend the `SimplyticsEvent` class and implement its `getEventData` method:
+```dart
+class PostScoreEvent extends SimplyticsEvent {
+  final int score;
+  final int level;
+  final String? character;
+
+  PostScoreEvent({required this.score, this.level = 1, this.character});
+
+  @override
+  SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service) => SimplyticsEventData(
+    name: 'post_score',
+    parameters: {
+      'score': score,
+      'level': level,
+      'character': character,
+    },
+  );
+}
+```
+
+It is possible to send different events for different analytics services
+with a different set of parameters by checking the type of the `service` parameter:
+```dart
+class PostScoreEvent extends SimplyticsEvent {
+  final int score;
+  final int level;
+  final String? character;
+
+  PostScoreEvent({required this.score, this.level = 1, this.character});
+
+  @override
+  SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service) {
+    if (service is SimplyticsFirebaseAnalyticsService) {
+      return SimplyticsEventData(
+        name: 'post_score',
+        parameters: {
+          'score': score,
+          'level': level,
+          'character': character,
+        },
+      );
+    } else {
+      return SimplyticsEventData(
+        name: 'game_score',
+        parameters: {
+          'scoreValue': score,
+          'gameLevel': level,
+          'characterName': character,
+        },
+      );
+    }
+  );
 }
 ```

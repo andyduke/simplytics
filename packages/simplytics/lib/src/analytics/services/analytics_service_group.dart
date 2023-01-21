@@ -1,13 +1,33 @@
-import 'package:simplytics/simplytics.dart';
+import 'package:simplytics/src/analytics/analytics_event.dart';
+import 'package:simplytics/src/analytics/analytics_interface.dart';
 
-class SimplyticsAnalyticsServiceGroup implements SimplyticsAnalyticsInterface {
+/// A class that allows you to use multiple analytics services at the same time.
+///
+/// Example:
+/// ```dart
+/// Simplytics.setup(
+///   analyticsService: SimplyticsAnalyticsServiceGroup([
+///     SimplyticsDebugAnalyticsService(),
+///     CustomAnalyticsService(),
+///   ]),
+/// );
+/// ```
+class SimplyticsAnalyticsServiceGroup extends SimplyticsAnalyticsInterface {
+  /// List of service classes to which all calls to this group will be propagated.
   final List<SimplyticsAnalyticsInterface> services;
 
+  /// Creates an analytics service group,
+  /// all calls to this group will be propagated to all specified service classes.
   SimplyticsAnalyticsServiceGroup(this.services);
 
   @override
   Future<void> logEvent({required String name, Map<String, Object?>? parameters}) {
     return Future.wait(services.map((s) => s.logEvent(name: name, parameters: parameters)));
+  }
+
+  @override
+  Future<void> log(SimplyticsEvent event) {
+    return Future.wait(services.map((s) => s.log(event)));
   }
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:simplytics/simplytics.dart';
 import 'dart:developer' as developer;
 
-class SimplyticsDebugAnalyticsService implements SimplyticsAnalyticsInterface {
+class SimplyticsDebugAnalyticsService extends SimplyticsAnalyticsInterface {
   final bool enabled;
 
   SimplyticsDebugAnalyticsService([this.enabled = kDebugMode]);

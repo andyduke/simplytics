@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:simplytics/simplytics.dart';
 
-class SimplyticsFirebaseAnalyticsService implements SimplyticsAnalyticsInterface {
+class SimplyticsFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
   final FirebaseAnalytics analytics;
 
   SimplyticsFirebaseAnalyticsService(this.analytics);

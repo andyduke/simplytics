@@ -1,6 +1,6 @@
-/// Exposes all crash reports methods for implementation.
+/// Exposes all error monitoring methods for implementation.
 abstract class SimplyticsCrashlogInterface {
-  /// Logs an error by dynamic [exception] and possible [stack] and/or [fatal] boolean.
+  /// Logs an error [Exception] and a possible [stackTrace].
   Future<void> recordError(
     dynamic exception,
     StackTrace? stackTrace, {
@@ -8,12 +8,19 @@ abstract class SimplyticsCrashlogInterface {
     bool fatal = false,
   });
 
-  /// Logs a message by String type [message].
+  /// Logs a [message].
+  /// Typically, this message is sent with the following error report.
   Future<void> log(String message);
 
-  /// Sets a user identifier that usually persists through the apps lifecycle.
-  Future<void> setUserId(String identifier);
+  /// Sets a user [id] to associate with all error reports.
+  Future<void> setUserId(String id);
 
   /// Sets a custom key for the user that usually persists through the apps lifecycle.
   Future<void> setCustomKey(String key, Object value);
+
+  // TODO: enabled property
+  // bool get enabled;
+
+  // TODO: enable() method
+  // Future<void> enable(bool enabled);
 }

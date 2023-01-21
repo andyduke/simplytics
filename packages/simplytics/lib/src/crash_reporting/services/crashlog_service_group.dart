@@ -1,8 +1,22 @@
 import 'package:simplytics/src/crash_reporting/crashlog_interface.dart';
 
+/// A class that allows you to use several error monitoring services at the same time.
+///
+/// Example:
+/// ```dart
+/// Simplytics.setup(
+///   crashlogService: SimplyticsCrashlogServiceGroup([
+///     SimplyticsDebugCrashlogService(),
+///     CustomCrashReportingService(),
+///   ]),
+/// );
+/// ```
 class SimplyticsCrashlogServiceGroup extends SimplyticsCrashlogInterface {
+  /// List of service classes to which all calls to this group will be propagated.
   final List<SimplyticsCrashlogInterface> services;
 
+  /// Creates an error monitoring service group,
+  /// all calls to this group will be propagated to all specified service classes.
   SimplyticsCrashlogServiceGroup(this.services);
 
   @override
@@ -21,7 +35,7 @@ class SimplyticsCrashlogServiceGroup extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> setUserId(String identifier) {
-    return Future.wait(services.map((s) => s.setUserId(identifier)));
+  Future<void> setUserId(String id) {
+    return Future.wait(services.map((s) => s.setUserId(id)));
   }
 }

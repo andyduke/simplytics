@@ -1,6 +1,8 @@
+/// Simple and lightweight **Analytics** and **Crash Reporting** abstraction.
 library simplytics;
 
 export 'src/analytics/analytics_interface.dart';
+export 'src/analytics/analytics_event.dart';
 export 'src/analytics/services/default_analytics_service.dart';
 export 'src/analytics/services/debug_analytics_service.dart';
 export 'src/analytics/services/analytics_service_group.dart';

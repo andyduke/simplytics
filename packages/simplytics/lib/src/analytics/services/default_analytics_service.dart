@@ -1,6 +1,6 @@
 import 'package:simplytics/simplytics.dart';
 
-class SimplyticsDefaultAnalyticsService implements SimplyticsAnalyticsInterface {
+class SimplyticsDefaultAnalyticsService extends SimplyticsAnalyticsInterface {
   @override
   Future<void> logEvent({required String name, Map<String, Object?>? parameters}) async {}
 

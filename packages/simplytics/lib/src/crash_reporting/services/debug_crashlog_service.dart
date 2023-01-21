@@ -7,7 +7,7 @@ class SimplyticsDebugCrashlogService extends SimplyticsCrashlogInterface {
 
   SimplyticsDebugCrashlogService([this.enabled = kDebugMode]);
 
-  static const _serviceName = 'Crash';
+  static const _serviceName = 'Crashlog';
 
   @override
   Future<void> log(String message) async {
@@ -45,10 +45,10 @@ class SimplyticsDebugCrashlogService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> setUserId(String identifier) async {
+  Future<void> setUserId(String id) async {
     if (enabled) {
       developer.log(
-        '• Set User Id: "$identifier"',
+        '• Set User Id: "$id"',
         name: _serviceName,
         level: 2,
       );

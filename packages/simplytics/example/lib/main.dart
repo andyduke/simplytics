@@ -33,6 +33,8 @@ class MyApp extends StatelessWidget {
       );
 
       runApp(const MyApp());
+    }, Simplytics.crashlog.recordError);
+    /*
     }, (error, stackTrace) {
       // debugPrint('============ ERROR ============');
       // debugPrint('$error\n$stackTrace');
@@ -47,6 +49,7 @@ class MyApp extends StatelessWidget {
       //   ),
       // ));
     });
+    */
   }
 
   // ---
