@@ -10,50 +10,40 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  // Runs an application in a zone
   static void run() {
     // Initialize Intl & etc.
 
-    runZonedGuarded<Future<void>>(() async {
-      WidgetsFlutterBinding.ensureInitialized();
+    runZonedGuarded<Future<void>>(
+      () async {
+        WidgetsFlutterBinding.ensureInitialized();
 
-      FlutterError.onError = (FlutterErrorDetails details) {
-        // Send to Zone handler
-        Zone.current.handleUncaughtError(details.exception, details.stack ?? StackTrace.current);
-      };
+        FlutterError.onError = (FlutterErrorDetails details) {
+          // Send to Zone handler
+          Zone.current.handleUncaughtError(details.exception, details.stack ?? StackTrace.current);
+        };
 
-      Simplytics.setup(
-        analyticsService: SimplyticsAnalyticsServiceGroup([
-          SimplyticsDebugAnalyticsService(),
-          CustomAnalyticsService(),
-        ]),
-        crashlogService: SimplyticsCrashlogServiceGroup([
-          SimplyticsDebugCrashlogService(),
-          CustomCrashReportingService(),
-        ]),
-      );
+        // Setup Simplytics
+        Simplytics.setup(
+          analyticsService: SimplyticsAnalyticsServiceGroup([
+            SimplyticsDebugAnalyticsService(),
+            CustomAnalyticsService(),
+          ]),
+          crashlogService: SimplyticsCrashlogServiceGroup([
+            SimplyticsDebugCrashlogService(),
+            CustomCrashReportingService(),
+          ]),
+        );
 
-      runApp(const MyApp());
-    }, Simplytics.crashlog.recordFatalError);
-    /*
-    }, (error, stackTrace) {
-      // debugPrint('============ ERROR ============');
-      // debugPrint('$error\n$stackTrace');
+        runApp(const MyApp());
+      },
 
-      Simplytics.crashlog.recordError(error, stackTrace, fatal: true);
-
-      // runApp(ErrorDisplayApp(
-      //   title: title,
-      //   builder: (context) => ErrorDisplay(
-      //     error: '$error',
-      //     details: '$stackTrace',
-      //   ),
-      // ));
-    });
-    */
+      // Sends fatal errors to Simplytics
+      Simplytics.crashlog.recordFatalError,
+    );
   }
 
-  // ---
-
+  // Setting up an observer
   static SimplyticsNavigatorObserver observer = SimplyticsNavigatorObserver(
     nameExtractor: (route) =>
         (route.settings is PageRouteSettings) ? (route.settings as PageRouteSettings).pageName : route.settings.name,
@@ -70,10 +60,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
       ),
       home: const DemoPage(),
+
+      // Adding an observer to navigatorObservers
       navigatorObservers: <NavigatorObserver>[observer],
     );
   }
 }
+
+// Main demo page
 
 class DemoPage extends StatelessWidget {
   const DemoPage({super.key});
@@ -91,18 +85,7 @@ class DemoPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    settings: const PageRouteSettings(pageName: 'Error Demo Page'),
-                    builder: (context) => const ErrorDemoPage(),
-                  ),
-                );
-              },
-              child: const Text('Error Reporting tests'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                    // Setting `settings` to set the page name when sending to analytics.
                     settings: const PageRouteSettings(pageName: 'Analytics Demo Page'),
                     builder: (context) => const AnalyticsDemoPage(),
                   ),
@@ -110,6 +93,20 @@ class DemoPage extends StatelessWidget {
               },
               child: const Text('Analytics tests'),
             ),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    // Setting `settings` to set the page name when sending to analytics.
+                    settings: const PageRouteSettings(pageName: 'Error Demo Page'),
+                    builder: (context) => const ErrorDemoPage(),
+                  ),
+                );
+              },
+              child: const Text('Error Reporting tests'),
+            ),
+            const Divider(),
             OutlinedButton(
               onPressed: () {
                 showDialog(context: context, builder: (context) => const TestDialog());
@@ -120,6 +117,7 @@ class DemoPage extends StatelessWidget {
               onPressed: () {
                 showDialog(
                   context: context,
+                  // Setting `settings` to set the page name when sending to analytics.
                   routeSettings: const PageRouteSettings(pageName: 'Named Dialog'),
                   builder: (context) => const TestDialog(),
                 );
@@ -127,6 +125,100 @@ class DemoPage extends StatelessWidget {
               child: const Text('Named Dialog test'),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// Analytics demo
+
+class PostScoreEvent extends SimplyticsEvent {
+  final int score;
+  final int level;
+  final String? character;
+
+  PostScoreEvent({required this.score, this.level = 1, this.character});
+
+  @override
+  SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service) => SimplyticsEventData(
+        name: 'post_score',
+        parameters: {
+          'score': score,
+          'level': level,
+          'character': character,
+        },
+      );
+}
+
+class AnalyticsDemoPage extends StatefulWidget {
+  const AnalyticsDemoPage({super.key});
+
+  @override
+  State<AnalyticsDemoPage> createState() => _AnalyticsDemoPageState();
+}
+
+class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    Simplytics.analytics.setUserId('test_user');
+    Simplytics.analytics.setUserProperty(name: 'prop1', value: 'value1');
+  }
+
+  void _logEvent() {
+    Simplytics.analytics.logEvent(name: 'test_event');
+  }
+
+  void _logEventWithParams() {
+    Simplytics.analytics.logEvent(name: 'test_event', parameters: {'id': 1, 'name': 'Test'});
+  }
+
+  void _logTypeSafeEvent() {
+    Simplytics.analytics.log(PostScoreEvent(score: 7, level: 2, character: 'Dash'));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Analytics tests')),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Analytics Off'),
+                  Switch(
+                    value: Simplytics.analytics.isEnabled,
+                    onChanged: (value) async {
+                      await Simplytics.analytics.setEnabled(value);
+                      setState(() {});
+                    },
+                  ),
+                  const Text('Analytics On'),
+                ],
+              ),
+              const Divider(),
+              TextButton(
+                onPressed: _logEvent,
+                child: const Text('Log event'),
+              ),
+              TextButton(
+                onPressed: _logEventWithParams,
+                child: const Text('Log event with data'),
+              ),
+              TextButton(
+                onPressed: _logTypeSafeEvent,
+                child: const Text('Log type-safe event'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -219,101 +311,7 @@ class _ErrorDemoPageState extends State<ErrorDemoPage> {
   }
 }
 
-// Analytics demo
-
-class PostScoreEvent extends SimplyticsEvent {
-  final int score;
-  final int level;
-  final String? character;
-
-  PostScoreEvent({required this.score, this.level = 1, this.character});
-
-  @override
-  SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service) => SimplyticsEventData(
-        name: 'post_score',
-        parameters: {
-          'score': score,
-          'level': level,
-          'character': character,
-        },
-      );
-}
-
-class AnalyticsDemoPage extends StatefulWidget {
-  const AnalyticsDemoPage({super.key});
-
-  @override
-  State<AnalyticsDemoPage> createState() => _AnalyticsDemoPageState();
-}
-
-class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
-  @override
-  void initState() {
-    super.initState();
-
-    Simplytics.analytics.setUserId('test_user');
-    Simplytics.analytics.setUserProperty(name: 'prop1', value: 'value1');
-    // Simplytics.analytics
-    //     .routeStart(name: 'Analytics Demo Screen', screenClassOverride: objectRuntimeType(widget, '<optimized out>'));
-  }
-
-  void _logEvent() {
-    Simplytics.analytics.logEvent(name: 'test_event');
-  }
-
-  void _logEventWithParams() {
-    Simplytics.analytics.logEvent(name: 'test_event', parameters: {'id': 1, 'name': 'Test'});
-  }
-
-  void _logTypeSafeEvent() {
-    Simplytics.analytics.log(PostScoreEvent(score: 7, level: 2, character: 'Dash'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Analytics tests')),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text('Analytics Off'),
-                  Switch(
-                    value: Simplytics.analytics.isEnabled,
-                    onChanged: (value) async {
-                      await Simplytics.analytics.setEnabled(value);
-                      setState(() {});
-                    },
-                  ),
-                  const Text('Analytics On'),
-                ],
-              ),
-              const Divider(),
-              TextButton(
-                onPressed: _logEvent,
-                child: const Text('Log event'),
-              ),
-              TextButton(
-                onPressed: _logEventWithParams,
-                child: const Text('Log event with data'),
-              ),
-              TextButton(
-                onPressed: _logTypeSafeEvent,
-                child: const Text('Log type-safe event'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+// Test dialog
 
 class TestDialog extends StatelessWidget {
   const TestDialog({super.key});
