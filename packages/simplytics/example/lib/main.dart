@@ -33,13 +33,13 @@ class MyApp extends StatelessWidget {
       );
 
       runApp(const MyApp());
-    }, Simplytics.crashlog.recordError);
+    }, Simplytics.crashlog.recordFatalError);
     /*
     }, (error, stackTrace) {
       // debugPrint('============ ERROR ============');
       // debugPrint('$error\n$stackTrace');
 
-      Simplytics.crashlog.recordError(error, stackTrace);
+      Simplytics.crashlog.recordError(error, stackTrace, fatal: true);
 
       // runApp(ErrorDisplayApp(
       //   title: title,

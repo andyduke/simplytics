@@ -89,9 +89,7 @@ void main() {
     );
 
     runApp(const MyApp());
-  }, (error, stackTrace) {
-    Simplytics.crashlog.recordError(error, stackTrace);
-  });
+  }, Simplytics.crashlog.recordFatalError);
 }
 ```
 

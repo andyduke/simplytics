@@ -46,20 +46,7 @@ class MyApp extends StatelessWidget {
       Simplytics.analytics.setUserProperty(name: 'app_id', value: 'simplytics_firebase_example');
 
       runApp(const MyApp());
-    }, (error, stackTrace) {
-      // debugPrint('============ ERROR ============');
-      // debugPrint('$error\n$stackTrace');
-
-      Simplytics.crashlog.recordError(error, stackTrace);
-
-      // runApp(ErrorDisplayApp(
-      //   title: title,
-      //   builder: (context) => ErrorDisplay(
-      //     error: '$error',
-      //     details: '$stackTrace',
-      //   ),
-      // ));
-    });
+    }, Simplytics.crashlog.recordFatalError);
   }
 
   // ---

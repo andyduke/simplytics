@@ -8,6 +8,14 @@ abstract class SimplyticsCrashlogInterface {
     bool fatal = false,
   });
 
+  /// Logs a fatal error [Exception] and a possible [stackTrace].
+  Future<void> recordFatalError(
+    dynamic exception,
+    StackTrace? stackTrace, {
+    dynamic reason,
+  }) =>
+      recordError(exception, stackTrace, reason: reason, fatal: true);
+
   /// Logs a [message].
   /// Typically, this message is sent with the following error report.
   Future<void> log(String message);
