@@ -1,6 +1,15 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:simplytics/simplytics.dart';
 
+/// Implementation of the Firebase Analytics service for Simplytics.
+///
+/// Used when configuring Simplytics:
+/// ```dart
+/// await Firebase.initializeApp();
+/// Simplytics.setup(
+///   analyticsService: SimplyticsFirebaseAnalyticsService(FirebaseAnalytics.instance),
+/// );
+/// ```
 class SimplyticsFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
   final FirebaseAnalytics analytics;
 

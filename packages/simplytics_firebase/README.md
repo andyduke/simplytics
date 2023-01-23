@@ -1,56 +1,38 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Simplytics Firebase Analytics and Crashlytics
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+[Simplytics](https://pub.dev/packages/simplytics) is a simple abstraction for analytics and crash reporting.
+This package adds implementation of **Firebase Analytics** and **Crashlytics** services to Simplytics.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
+To start using Simplytics with Firebase, you need to initialize Firebase and configure Simplytics, specify which classes of analytics and error monitoring services to use:
 ```dart
-const like = 'sample';
+await Firebase.initializeApp();
+
+Simplytics.setup(
+  analyticsService: SimplyticsFirebaseAnalyticsService(FirebaseAnalytics.instance),
+  crashlogService: SimplyticsFirebaseCrashlogService(FirebaseCrashlytics.instance),
+);
 ```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
 
 ## Firebase Debug
 
-Enable Analytics DebugView
-```sh
-adb shell setprop debug.firebase.analytics.app com.example.simplytics_firebase_example
-```
+### Firebase Analytics
 
-Enable Crashlytics logs
+To see analytics events in the Firebase Analytics DebugView, you need to run the following command:
+```sh
+adb shell setprop debug.firebase.analytics.app <PACKAGE_NAME>
+```
+See the Firebase Analytics [documentation](https://firebase.google.com/docs/analytics/debugview) for more details.
+
+### Firebase Crashlytics
+
+To see the error reports that are sent to Firebase Crashlytics, you need to run the following command:
 ```sh
 adb shell setprop log.tag.FirebaseCrashlytics DEBUG
 ```
 
-Disable Crashlytics logs
+...and to disable the output of these reports to the system log, you must run the following command:
 ```sh
 adb shell setprop log.tag.FirebaseCrashlytics INFO
 ```

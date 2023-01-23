@@ -99,7 +99,7 @@ class DemoPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     // Setting `settings` to set the page name when sending to analytics.
-                    settings: const PageRouteSettings(pageName: 'Error Demo Page'),
+                    settings: const PageRouteSettings(pageName: 'Error Reporting Demo Page'),
                     builder: (context) => const ErrorDemoPage(),
                   ),
                 );
@@ -118,11 +118,11 @@ class DemoPage extends StatelessWidget {
                 showDialog(
                   context: context,
                   // Setting `settings` to set the page name when sending to analytics.
-                  routeSettings: const PageRouteSettings(pageName: 'Named Dialog'),
+                  routeSettings: const PageRouteSettings(pageName: 'Dialog with a named route'),
                   builder: (context) => const TestDialog(),
                 );
               },
-              child: const Text('Named Dialog test'),
+              child: const Text('Dialog test with a named route'),
             ),
           ],
         ),

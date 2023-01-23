@@ -1,6 +1,15 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:simplytics/simplytics.dart';
 
+/// Implementation of the Firebase Crashlytics service for Simplytics.
+///
+/// Used when configuring Simplytics:
+/// ```dart
+/// await Firebase.initializeApp();
+/// Simplytics.setup(
+///   crashlogService: SimplyticsFirebaseCrashlogService(FirebaseCrashlytics.instance),
+/// );
+/// ```
 class SimplyticsFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   final FirebaseCrashlytics crashlytics;
 

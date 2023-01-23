@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:simplytics/simplytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,10 +27,6 @@ class MyApp extends StatelessWidget {
 
         // Setup Firebase
         await Firebase.initializeApp();
-        if (kDebugMode) {
-          // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-          await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-        }
 
         // Setup Simplytics
         Simplytics.setup(
@@ -45,9 +40,7 @@ class MyApp extends StatelessWidget {
           ]),
         );
 
-        // DEBUG
-        // FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
-
+        // Set custom analytics user's property
         Simplytics.analytics.setUserProperty(name: 'app_id', value: 'simplytics_firebase_example');
 
         runApp(const MyApp());
@@ -114,7 +107,7 @@ class DemoPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     // Setting `settings` to set the page name when sending to analytics.
-                    settings: const PageRouteSettings(pageName: 'Error Demo Page'),
+                    settings: const PageRouteSettings(pageName: 'Error Reporting Demo Page'),
                     builder: (context) => const ErrorDemoPage(),
                   ),
                 );
@@ -133,11 +126,11 @@ class DemoPage extends StatelessWidget {
                 showDialog(
                   context: context,
                   // Setting `settings` to set the page name when sending to analytics.
-                  routeSettings: const PageRouteSettings(pageName: 'Named Dialog'),
+                  routeSettings: const PageRouteSettings(pageName: 'Dialog with a named route'),
                   builder: (context) => const TestDialog(),
                 );
               },
-              child: const Text('Named Dialog test'),
+              child: const Text('Dialog test with a named route'),
             ),
           ],
         ),
