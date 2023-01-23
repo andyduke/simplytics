@@ -25,4 +25,10 @@ class SimplyticsFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   Future<void> setUserId(String id) {
     return crashlytics.setUserIdentifier(id);
   }
+
+  @override
+  bool get isEnabled => crashlytics.isCrashlyticsCollectionEnabled;
+
+  @override
+  Future<void> setEnabled(bool enabled) => crashlytics.setCrashlyticsCollectionEnabled(enabled);
 }

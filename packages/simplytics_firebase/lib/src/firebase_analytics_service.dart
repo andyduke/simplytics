@@ -6,6 +6,8 @@ class SimplyticsFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
 
   SimplyticsFirebaseAnalyticsService(this.analytics);
 
+  bool _enabled = true;
+
   @override
   Future<void> logEvent({required String name, Map<String, Object?>? parameters}) {
     return analytics.logEvent(name: name, parameters: parameters);
@@ -32,5 +34,14 @@ class SimplyticsFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
   @override
   Future<void> setUserProperty({required String name, required String? value}) {
     return analytics.setUserProperty(name: name, value: value);
+  }
+
+  @override
+  bool get isEnabled => _enabled;
+
+  @override
+  Future<void> setEnabled(bool enabled) {
+    _enabled = enabled;
+    return analytics.setAnalyticsCollectionEnabled(enabled);
   }
 }
