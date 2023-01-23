@@ -55,13 +55,22 @@ import 'package:simplytics/src/analytics/analytics_interface.dart';
 /// );
 /// ```
 abstract class SimplyticsEvent {
+  /// Return the description of the event to send to the analytics service.
+  ///
+  /// By checking the [service] parameter, you can prepare different events
+  /// for different analytics services.
   SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service);
 }
 
+/// A class that describes the event to send to the analytics service (used in [SimplyticsEvent]).
 class SimplyticsEventData {
+  /// Event name.
   final String name;
+
+  /// Parameters that are sent along with the event.
   final Map<String, Object?>? parameters;
 
+  /// Creates a class that describes an analytics service event.
   SimplyticsEventData({
     required this.name,
     this.parameters,

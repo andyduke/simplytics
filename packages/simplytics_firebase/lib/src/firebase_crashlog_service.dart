@@ -22,7 +22,7 @@ class SimplyticsFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> setUserId(String identifier) {
-    return crashlytics.setUserIdentifier(identifier);
+  Future<void> setUserId(String id) {
+    return crashlytics.setUserIdentifier(id);
   }
 }

@@ -1,5 +1,7 @@
 import 'package:simplytics/simplytics.dart';
 
+/// The default analytics service (used if no other is installed via [Simplytics.setup])
+/// is just a stub that does nothing.
 class SimplyticsDefaultAnalyticsService extends SimplyticsAnalyticsInterface {
   @override
   Future<void> logEvent({required String name, Map<String, Object?>? parameters}) async {}

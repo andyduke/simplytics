@@ -2,9 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:simplytics/simplytics.dart';
 import 'dart:developer' as developer;
 
+/// Error monitoring service for debugging, outputs all events to the system log, if [enabled].
+///
+/// Enabled by default for debug mode ([kDebugMode]).
 class SimplyticsDebugCrashlogService extends SimplyticsCrashlogInterface {
+  /// If true, output all events to the system log.
   final bool enabled;
 
+  /// Creates an error monitoring service object for debugging,
+  /// outputs all events to the system log, if [enabled].
+  ///
+  /// Enabled by default for debug mode ([kDebugMode]).
   SimplyticsDebugCrashlogService([this.enabled = kDebugMode]);
 
   static const _serviceName = 'Crashlog';

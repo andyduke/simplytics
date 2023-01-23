@@ -32,9 +32,9 @@ class CustomCrashReportingService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> setUserId(String identifier) async {
+  Future<void> setUserId(String id) async {
     developer.log(
-      '•• Set User Id: "$identifier"',
+      '•• Set User Id: "$id"',
       name: 'Custom Crash',
       level: 2,
     );
