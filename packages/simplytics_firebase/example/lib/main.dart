@@ -130,6 +130,8 @@ class DemoPage extends StatelessWidget {
   }
 }
 
+// Crash reporting demo
+
 class ErrorDemoPage extends StatefulWidget {
   const ErrorDemoPage({super.key});
 
@@ -178,6 +180,22 @@ class _ErrorDemoPageState extends State<ErrorDemoPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Crashlog Off'),
+                  Switch(
+                    value: Simplytics.crashlog.isEnabled,
+                    onChanged: (value) async {
+                      await Simplytics.crashlog.setEnabled(value);
+                      setState(() {});
+                    },
+                  ),
+                  const Text('Crashlog On'),
+                ],
+              ),
+              const Divider(),
               TextButton(
                 onPressed: _logError,
                 child: const Text('Log error'),
@@ -207,6 +225,39 @@ class _ErrorDemoPageState extends State<ErrorDemoPage> {
   }
 }
 
+// Analytics demo
+
+class PostScoreEvent extends SimplyticsEvent {
+  final int score;
+  final int level;
+  final String? character;
+
+  PostScoreEvent({required this.score, this.level = 1, this.character});
+
+  @override
+  SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service) {
+    if (service is SimplyticsFirebaseAnalyticsService) {
+      return SimplyticsEventData(
+        name: 'post_score',
+        parameters: {
+          'score': score,
+          'level': level,
+          'character': character,
+        },
+      );
+    } else {
+      return SimplyticsEventData(
+        name: 'game_score',
+        parameters: {
+          'scoreValue': score,
+          'gameLevel': level,
+          'characterName': character,
+        },
+      );
+    }
+  }
+}
+
 class AnalyticsDemoPage extends StatefulWidget {
   const AnalyticsDemoPage({super.key});
 
@@ -233,6 +284,10 @@ class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
     Simplytics.analytics.logEvent(name: 'test_event', parameters: {'id': 1, 'name': 'Test'});
   }
 
+  void _logTypeSafeEvent() {
+    Simplytics.analytics.log(PostScoreEvent(score: 7, level: 2, character: 'Dash'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -243,6 +298,22 @@ class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Analytics Off'),
+                  Switch(
+                    value: Simplytics.analytics.isEnabled,
+                    onChanged: (value) async {
+                      await Simplytics.analytics.setEnabled(value);
+                      setState(() {});
+                    },
+                  ),
+                  const Text('Analytics On'),
+                ],
+              ),
+              const Divider(),
               TextButton(
                 onPressed: _logEvent,
                 child: const Text('Log event'),
@@ -250,6 +321,10 @@ class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
               TextButton(
                 onPressed: _logEventWithParams,
                 child: const Text('Log event with data'),
+              ),
+              TextButton(
+                onPressed: _logTypeSafeEvent,
+                child: const Text('Log type-safe event'),
               ),
             ],
           ),
