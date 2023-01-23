@@ -38,4 +38,10 @@ class SimplyticsCrashlogServiceGroup extends SimplyticsCrashlogInterface {
   Future<void> setUserId(String id) {
     return Future.wait(services.map((s) => s.setUserId(id)));
   }
+
+  @override
+  bool get isEnabled => services.any((s) => s.isEnabled);
+
+  @override
+  Future<void> setEnabled(bool enabled) => Future.wait(services.map((s) => s.setEnabled(enabled)));
 }

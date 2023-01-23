@@ -26,9 +26,12 @@ abstract class SimplyticsCrashlogInterface {
   /// Sets a custom key for the user that usually persists through the apps lifecycle.
   Future<void> setCustomKey(String key, Object value);
 
-  // TODO: enabled property
-  // bool get enabled;
+  /// Whether the error monitoring service collects reports.
+  /// If false, no crash reporting data is sent to the service.
+  ///
+  /// See [setEnabled] to toggle the value.
+  bool get isEnabled;
 
-  // TODO: enable() method
-  // Future<void> enable(bool enabled);
+  /// Enables/disables automatic data collection using this service class.
+  Future<void> setEnabled(bool enabled);
 }

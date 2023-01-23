@@ -44,9 +44,12 @@ abstract class SimplyticsAnalyticsInterface {
   /// Resets all current analytics data.
   Future<void> resetAnalyticsData();
 
-  // TODO: enabled property
-  // bool get enabled;
+  /// Whether the analytics service collects events.
+  /// If false, no events is sent to the service.
+  ///
+  /// See [setEnabled] to toggle the value.
+  bool get isEnabled;
 
-  // TODO: enable() method
-  // Future<void> enable(bool enabled);
+  /// Enables/disables automatic event collection using this service class.
+  Future<void> setEnabled(bool enabled);
 }

@@ -177,6 +177,22 @@ class _ErrorDemoPageState extends State<ErrorDemoPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Crashlog Off'),
+                  Switch(
+                    value: Simplytics.crashlog.isEnabled,
+                    onChanged: (value) async {
+                      await Simplytics.crashlog.setEnabled(value);
+                      setState(() {});
+                    },
+                  ),
+                  const Text('Crashlog On'),
+                ],
+              ),
+              const Divider(),
               TextButton(
                 onPressed: _logError,
                 child: const Text('Log error'),
@@ -237,6 +253,22 @@ class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Analytics Off'),
+                  Switch(
+                    value: Simplytics.analytics.isEnabled,
+                    onChanged: (value) async {
+                      await Simplytics.analytics.setEnabled(value);
+                      setState(() {});
+                    },
+                  ),
+                  const Text('Analytics On'),
+                ],
+              ),
+              const Divider(),
               TextButton(
                 onPressed: _logEvent,
                 child: const Text('Log event'),

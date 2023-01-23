@@ -54,4 +54,10 @@ class SimplyticsAnalyticsServiceGroup extends SimplyticsAnalyticsInterface {
   Future<void> setUserProperty({required String name, required String? value}) {
     return Future.wait(services.map((s) => s.setUserProperty(name: name, value: value)));
   }
+
+  @override
+  bool get isEnabled => services.any((s) => s.isEnabled);
+
+  @override
+  Future<void> setEnabled(bool enabled) => Future.wait(services.map((s) => s.setEnabled(enabled)));
 }
