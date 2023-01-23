@@ -207,7 +207,7 @@ For your own or any other analytics and error monitoring services, you can creat
 
 ### Your own analytics service class
 
-To create your own class for the analytics service, you need to extends the `SimplyticsAnalyticsInterface` interface.
+To create your own class for the analytics service, you need to extend the `SimplyticsAnalyticsInterface` interface.
 
 Here is an example implementation of an analytics service class for **Firebase Analytics** (but you can use a pre-built class from the [simplytics_firebase](https://pub.dev/packages/simplytics_firebase) package):
 ```dart
@@ -215,6 +215,8 @@ class CustomFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
   final FirebaseAnalytics analytics;
 
   CustomFirebaseAnalyticsService(this.analytics);
+
+  bool _enabled = true;
 
   @override
   Future<void> logEvent({required String name, Map<String, Object?>? parameters}) {
@@ -243,12 +245,21 @@ class CustomFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
   Future<void> setUserProperty({required String name, required String? value}) {
     return analytics.setUserProperty(name: name, value: value);
   }
+
+  @override
+  bool get isEnabled => _enabled;
+
+  @override
+  Future<void> setEnabled(bool enabled) {
+    _enabled = enabled;
+    return analytics.setAnalyticsCollectionEnabled(enabled);
+  }
 }
 ```
 
 ### Your own error monitoring service class
 
-To create your own class for the crash monitoring service, you need to implement the `SimplyticsCrashlogInterface` interface.
+To create your own class for the crash monitoring service, you need to extend the `SimplyticsCrashlogInterface` interface.
 
 Here is an example implementation of the **Firebase Crashlytics** error monitoring service class (but you can use the pre-built class from the [simplytics_firebase](https://pub.dev/packages/simplytics_firebase) package):
 ```dart
@@ -276,6 +287,12 @@ class CustomFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   Future<void> setUserId(String identifier) {
     return crashlytics.setUserIdentifier(identifier);
   }
+
+  @override
+  bool get isEnabled => crashlytics.isCrashlyticsCollectionEnabled;
+
+  @override
+  Future<void> setEnabled(bool enabled) => crashlytics.setCrashlyticsCollectionEnabled(enabled);
 }
 ```
 
@@ -338,6 +355,6 @@ class PostScoreEvent extends SimplyticsEvent {
         },
       );
     }
-  );
+  }
 }
 ```
