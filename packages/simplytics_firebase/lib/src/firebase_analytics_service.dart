@@ -18,7 +18,8 @@ class SimplyticsFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
   bool _enabled = true;
 
   @override
-  Future<void> logEvent({required String name, Map<String, Object?>? parameters}) {
+  Future<void> logEvent(
+      {required String name, Map<String, Object?>? parameters}) {
     return analytics.logEvent(name: name, parameters: parameters);
   }
 
@@ -29,7 +30,9 @@ class SimplyticsFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
 
   @override
   Future<void> routeStart({required String name, String? screenClassOverride}) {
-    return analytics.setCurrentScreen(screenName: name, screenClassOverride: screenClassOverride ?? 'Flutter');
+    return analytics.setCurrentScreen(
+        screenName: name,
+        screenClassOverride: screenClassOverride ?? 'Flutter');
   }
 
   @override

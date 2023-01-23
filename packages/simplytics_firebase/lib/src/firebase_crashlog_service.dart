@@ -21,8 +21,10 @@ class SimplyticsFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace, {reason, bool fatal = false}) {
-    return crashlytics.recordError(exception, stackTrace, reason: reason, fatal: fatal);
+  Future<void> recordError(exception, StackTrace? stackTrace,
+      {reason, bool fatal = false}) {
+    return crashlytics.recordError(exception, stackTrace,
+        reason: reason, fatal: fatal);
   }
 
   @override
@@ -39,5 +41,6 @@ class SimplyticsFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   bool get isEnabled => crashlytics.isCrashlyticsCollectionEnabled;
 
   @override
-  Future<void> setEnabled(bool enabled) => crashlytics.setCrashlyticsCollectionEnabled(enabled);
+  Future<void> setEnabled(bool enabled) =>
+      crashlytics.setCrashlyticsCollectionEnabled(enabled);
 }

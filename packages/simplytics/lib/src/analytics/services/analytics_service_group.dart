@@ -21,8 +21,10 @@ class SimplyticsAnalyticsServiceGroup extends SimplyticsAnalyticsInterface {
   SimplyticsAnalyticsServiceGroup(this.services);
 
   @override
-  Future<void> logEvent({required String name, Map<String, Object?>? parameters}) {
-    return Future.wait(services.map((s) => s.logEvent(name: name, parameters: parameters)));
+  Future<void> logEvent(
+      {required String name, Map<String, Object?>? parameters}) {
+    return Future.wait(
+        services.map((s) => s.logEvent(name: name, parameters: parameters)));
   }
 
   @override
@@ -37,7 +39,8 @@ class SimplyticsAnalyticsServiceGroup extends SimplyticsAnalyticsInterface {
 
   @override
   Future<void> routeStart({required String name, String? screenClassOverride}) {
-    return Future.wait(services.map((s) => s.routeStart(name: name, screenClassOverride: screenClassOverride)));
+    return Future.wait(services.map((s) =>
+        s.routeStart(name: name, screenClassOverride: screenClassOverride)));
   }
 
   @override
@@ -52,12 +55,14 @@ class SimplyticsAnalyticsServiceGroup extends SimplyticsAnalyticsInterface {
 
   @override
   Future<void> setUserProperty({required String name, required String? value}) {
-    return Future.wait(services.map((s) => s.setUserProperty(name: name, value: value)));
+    return Future.wait(
+        services.map((s) => s.setUserProperty(name: name, value: value)));
   }
 
   @override
   bool get isEnabled => services.any((s) => s.isEnabled);
 
   @override
-  Future<void> setEnabled(bool enabled) => Future.wait(services.map((s) => s.setEnabled(enabled)));
+  Future<void> setEnabled(bool enabled) =>
+      Future.wait(services.map((s) => s.setEnabled(enabled)));
 }

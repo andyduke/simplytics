@@ -35,7 +35,8 @@ abstract class Simplytics {
   /// Simplytics.analytics.logEvent(name: 'your_event');
   /// ```
   static SimplyticsAnalyticsInterface get analytics => _analytics;
-  static SimplyticsAnalyticsInterface _analytics = SimplyticsDefaultAnalyticsService();
+  static SimplyticsAnalyticsInterface _analytics =
+      SimplyticsDefaultAnalyticsService();
 
   /// A reference to an instance of the error monitoring object, giving access to methods for
   /// sending error reports, etc.
@@ -45,7 +46,8 @@ abstract class Simplytics {
   /// Simplytics.crashlog.recordError('Some error', StackTrace.current);
   /// ```
   static SimplyticsCrashlogInterface get crashlog => _crashlog;
-  static SimplyticsCrashlogInterface _crashlog = SimplyticsDefaultCrashlogService();
+  static SimplyticsCrashlogInterface _crashlog =
+      SimplyticsDefaultCrashlogService();
 
   /// Set up analytics and error monitoring object instances.
   /// Must be called before sending events to analytics and error reporting.

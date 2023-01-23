@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
 
         FlutterError.onError = (FlutterErrorDetails details) {
           // Send to Zone handler
-          Zone.current.handleUncaughtError(details.exception, details.stack ?? StackTrace.current);
+          Zone.current.handleUncaughtError(
+              details.exception, details.stack ?? StackTrace.current);
         };
 
         // Setup Simplytics
@@ -45,8 +46,9 @@ class MyApp extends StatelessWidget {
 
   // Setting up an observer
   static SimplyticsNavigatorObserver observer = SimplyticsNavigatorObserver(
-    nameExtractor: (route) =>
-        (route.settings is PageRouteSettings) ? (route.settings as PageRouteSettings).pageName : route.settings.name,
+    nameExtractor: (route) => (route.settings is PageRouteSettings)
+        ? (route.settings as PageRouteSettings).pageName
+        : route.settings.name,
     routeFilter: (route) => (route is PageRoute) || (route is RawDialogRoute),
   );
 
@@ -86,7 +88,8 @@ class DemoPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     // Setting `settings` to set the page name when sending to analytics.
-                    settings: const PageRouteSettings(pageName: 'Analytics Demo Page'),
+                    settings: const PageRouteSettings(
+                        pageName: 'Analytics Demo Page'),
                     builder: (context) => const AnalyticsDemoPage(),
                   ),
                 );
@@ -99,7 +102,8 @@ class DemoPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     // Setting `settings` to set the page name when sending to analytics.
-                    settings: const PageRouteSettings(pageName: 'Error Reporting Demo Page'),
+                    settings: const PageRouteSettings(
+                        pageName: 'Error Reporting Demo Page'),
                     builder: (context) => const ErrorDemoPage(),
                   ),
                 );
@@ -109,7 +113,8 @@ class DemoPage extends StatelessWidget {
             const Divider(),
             OutlinedButton(
               onPressed: () {
-                showDialog(context: context, builder: (context) => const TestDialog());
+                showDialog(
+                    context: context, builder: (context) => const TestDialog());
               },
               child: const Text('Dialog test'),
             ),
@@ -118,7 +123,8 @@ class DemoPage extends StatelessWidget {
                 showDialog(
                   context: context,
                   // Setting `settings` to set the page name when sending to analytics.
-                  routeSettings: const PageRouteSettings(pageName: 'Dialog with a named route'),
+                  routeSettings: const PageRouteSettings(
+                      pageName: 'Dialog with a named route'),
                   builder: (context) => const TestDialog(),
                 );
               },
@@ -141,7 +147,8 @@ class PostScoreEvent extends SimplyticsEvent {
   PostScoreEvent({required this.score, this.level = 1, this.character});
 
   @override
-  SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service) => SimplyticsEventData(
+  SimplyticsEventData getEventData(SimplyticsAnalyticsInterface service) =>
+      SimplyticsEventData(
         name: 'post_score',
         parameters: {
           'score': score,
@@ -172,11 +179,13 @@ class _AnalyticsDemoPageState extends State<AnalyticsDemoPage> {
   }
 
   void _logEventWithParams() {
-    Simplytics.analytics.logEvent(name: 'test_event', parameters: {'id': 1, 'name': 'Test'});
+    Simplytics.analytics
+        .logEvent(name: 'test_event', parameters: {'id': 1, 'name': 'Test'});
   }
 
   void _logTypeSafeEvent() {
-    Simplytics.analytics.log(PostScoreEvent(score: 7, level: 2, character: 'Dash'));
+    Simplytics.analytics
+        .log(PostScoreEvent(score: 7, level: 2, character: 'Dash'));
   }
 
   @override
@@ -248,11 +257,13 @@ class _ErrorDemoPageState extends State<ErrorDemoPage> {
   }
 
   void _recordError() {
-    Simplytics.crashlog.recordError('Some error', StackTrace.current, reason: 'FakeException');
+    Simplytics.crashlog
+        .recordError('Some error', StackTrace.current, reason: 'FakeException');
   }
 
   void _recordFatalError() {
-    Simplytics.crashlog.recordError('Some error', StackTrace.current, reason: 'FakeException', fatal: true);
+    Simplytics.crashlog.recordError('Some error', StackTrace.current,
+        reason: 'FakeException', fatal: true);
   }
 
   void _throwException() {
@@ -323,7 +334,8 @@ class TestDialog extends StatelessWidget {
       alignment: Alignment.center,
       actionsAlignment: MainAxisAlignment.center,
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
+        TextButton(
+            onPressed: () => Navigator.pop(context), child: const Text('OK')),
       ],
     );
   }

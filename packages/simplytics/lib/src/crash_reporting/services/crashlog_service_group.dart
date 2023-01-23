@@ -25,8 +25,10 @@ class SimplyticsCrashlogServiceGroup extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace, {reason, bool fatal = false}) {
-    return Future.wait(services.map((s) => s.recordError(exception, stackTrace, reason: reason, fatal: fatal)));
+  Future<void> recordError(exception, StackTrace? stackTrace,
+      {reason, bool fatal = false}) {
+    return Future.wait(services.map((s) =>
+        s.recordError(exception, stackTrace, reason: reason, fatal: fatal)));
   }
 
   @override
@@ -43,5 +45,6 @@ class SimplyticsCrashlogServiceGroup extends SimplyticsCrashlogInterface {
   bool get isEnabled => services.any((s) => s.isEnabled);
 
   @override
-  Future<void> setEnabled(bool enabled) => Future.wait(services.map((s) => s.setEnabled(enabled)));
+  Future<void> setEnabled(bool enabled) =>
+      Future.wait(services.map((s) => s.setEnabled(enabled)));
 }

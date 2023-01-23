@@ -6,13 +6,15 @@ class SimplyticsDefaultAnalyticsService extends SimplyticsAnalyticsInterface {
   bool _enabled = false;
 
   @override
-  Future<void> logEvent({required String name, Map<String, Object?>? parameters}) async {}
+  Future<void> logEvent(
+      {required String name, Map<String, Object?>? parameters}) async {}
 
   @override
   Future<void> resetAnalyticsData() async {}
 
   @override
-  Future<void> routeStart({required String name, String? screenClassOverride}) async {}
+  Future<void> routeStart(
+      {required String name, String? screenClassOverride}) async {}
 
   @override
   Future<void> routeEnd({required String name}) async {}
@@ -21,7 +23,8 @@ class SimplyticsDefaultAnalyticsService extends SimplyticsAnalyticsInterface {
   Future<void> setUserId(String? id) async {}
 
   @override
-  Future<void> setUserProperty({required String name, required String? value}) async {}
+  Future<void> setUserProperty(
+      {required String name, required String? value}) async {}
 
   @override
   bool get isEnabled => _enabled;

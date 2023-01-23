@@ -53,18 +53,18 @@ class SimplyticsNavigatorObserver extends NavigatorObserver {
   void _sendRouteStart(Route<dynamic> route) {
     final String? screenName = nameExtractor(route);
     if (screenName != null) {
-      Simplytics.analytics
-          .routeStart(name: screenName)
-          .catchError(_handleAnalyticsErrors, test: (Object error) => error is PlatformException);
+      Simplytics.analytics.routeStart(name: screenName).catchError(
+          _handleAnalyticsErrors,
+          test: (Object error) => error is PlatformException);
     }
   }
 
   void _sendRouteEnd(Route<dynamic> route) {
     final String? screenName = nameExtractor(route);
     if (screenName != null) {
-      Simplytics.analytics
-          .routeEnd(name: screenName)
-          .catchError(_handleAnalyticsErrors, test: (Object error) => error is PlatformException);
+      Simplytics.analytics.routeEnd(name: screenName).catchError(
+          _handleAnalyticsErrors,
+          test: (Object error) => error is PlatformException);
     }
   }
 
@@ -81,7 +81,9 @@ class SimplyticsNavigatorObserver extends NavigatorObserver {
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
 
-    if (previousRoute != null && routeFilter(previousRoute) && routeFilter(route)) {
+    if (previousRoute != null &&
+        routeFilter(previousRoute) &&
+        routeFilter(route)) {
       _sendRouteEnd(previousRoute);
     }
 
@@ -111,7 +113,9 @@ class SimplyticsNavigatorObserver extends NavigatorObserver {
       _sendRouteEnd(route);
     }
 
-    if (previousRoute != null && routeFilter(previousRoute) && routeFilter(route)) {
+    if (previousRoute != null &&
+        routeFilter(previousRoute) &&
+        routeFilter(route)) {
       _sendRouteStart(previousRoute);
     }
   }

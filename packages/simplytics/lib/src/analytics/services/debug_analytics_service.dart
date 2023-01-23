@@ -17,7 +17,8 @@ class SimplyticsDebugAnalyticsService extends SimplyticsAnalyticsInterface {
   static const _serviceName = 'Analytics';
 
   @override
-  Future<void> logEvent({required String name, Map<String, Object?>? parameters}) async {
+  Future<void> logEvent(
+      {required String name, Map<String, Object?>? parameters}) async {
     if (_enabled) {
       developer.log(
         '• Event: $name${(parameters != null) ? ': $parameters' : ''}',
@@ -33,7 +34,8 @@ class SimplyticsDebugAnalyticsService extends SimplyticsAnalyticsInterface {
   }
 
   @override
-  Future<void> routeStart({required String name, String? screenClassOverride}) async {
+  Future<void> routeStart(
+      {required String name, String? screenClassOverride}) async {
     if (_enabled) {
       developer.log(
         '• Enter route: $name${(screenClassOverride != null) ? ' ($screenClassOverride)' : ''}',
@@ -66,7 +68,8 @@ class SimplyticsDebugAnalyticsService extends SimplyticsAnalyticsInterface {
   }
 
   @override
-  Future<void> setUserProperty({required String name, required String? value}) async {
+  Future<void> setUserProperty(
+      {required String name, required String? value}) async {
     if (_enabled) {
       developer.log(
         '• Set User Property: $name="$value"',
