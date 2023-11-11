@@ -11,19 +11,6 @@ class PageRouteSettings extends RouteSettings {
   });
 
   @override
-  PageRouteSettings copyWith({
-    String? name,
-    Object? arguments,
-    String? pageName,
-  }) {
-    return PageRouteSettings(
-      name: name ?? this.name,
-      arguments: arguments ?? this.arguments,
-      pageName: pageName ?? this.pageName,
-    );
-  }
-
-  @override
   String toString() =>
       '${objectRuntimeType(this, 'PageRouteSettings')}(${(pageName != null) ? '$pageName: ' : ''}"$name", $arguments)';
 }

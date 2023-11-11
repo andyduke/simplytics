@@ -72,26 +72,32 @@ Simplytics.setup(
 ```
 
 
-If you wish to catch all Dart and Flutter errors and exceptions and send them to the error monitoring system, you can do so by wrapping `runApp()` in a **zone** and assigning `FlutterError.onError`:
+If you wish to catch all Dart and Flutter errors and exceptions and send them to the error monitoring system, you can do this using `runAppGuarded()`:
 ```dart
 void main() {
-  runZonedGuarded<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  runAppGuarded(
+    // Initializing Simplytics and creating an application class object
+    () async {
+      // Setup Simplytics
+      Simplytics.setup(
+        analyticsService: SimplyticsDebugAnalyticsService(),
+        crashlogService: SimplyticsDebugCrashlogService(),
+      );
 
-    FlutterError.onError = (FlutterErrorDetails details) {
-      // Send to Zone handler
-      Zone.current.handleUncaughtError(details.exception, details.stack ?? StackTrace.current);
-    };
+      // Create an application class object
+      return const MyApp();
+    },
 
-    Simplytics.setup(
-      analyticsService: SimplyticsDebugAnalyticsService(),
-      crashlogService: SimplyticsDebugCrashlogService(),
-    );
-
-    runApp(const MyApp());
-  }, Simplytics.crashlog.recordFatalError);
+    // Sends fatal errors to Simplytics
+    onError: (error, stackTrace) => Simplytics.crashlog.recordFatalError,
+  );
 }
 ```
+
+The `runAppGuarded()` function makes it easy to configure and catch all unhandled errors and exceptions.
+
+It calls `WidgetsFlutterBinding.ensureInitialized()` *(can be disabled)*, configures all Dart and Flutter error handlers, and launches the application. All errors and exceptions will be passed to your handler in the `onError` parameter.
+
 
 ## Usage
 

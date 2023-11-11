@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:simplytics/simplytics.dart';
 import 'package:simplytics_example/page_route_settings.dart';
@@ -6,44 +5,30 @@ import 'package:simplytics_example/services/custom_analytics_service.dart';
 import 'package:simplytics_example/services/custom_crash_reporting_service.dart';
 
 void main() {
-  MyApp.run();
+  runAppGuarded(
+    // Initializing Simplytics and creating an application class object
+    () async {
+      // Setup Simplytics
+      Simplytics.setup(
+        analyticsService: SimplyticsAnalyticsServiceGroup([
+          SimplyticsDebugAnalyticsService(),
+          CustomAnalyticsService(),
+        ]),
+        crashlogService: SimplyticsCrashlogServiceGroup([
+          SimplyticsDebugCrashlogService(),
+          CustomCrashReportingService(),
+        ]),
+      );
+
+      return const MyApp();
+    },
+
+    // Sends fatal errors to Simplytics
+    onError: (error, stackTrace) => Simplytics.crashlog.recordFatalError,
+  );
 }
 
 class MyApp extends StatelessWidget {
-  // Runs an application in a zone
-  static void run() {
-    // Initialize Intl & etc.
-
-    runZonedGuarded<Future<void>>(
-      () async {
-        WidgetsFlutterBinding.ensureInitialized();
-
-        FlutterError.onError = (FlutterErrorDetails details) {
-          // Send to Zone handler
-          Zone.current.handleUncaughtError(
-              details.exception, details.stack ?? StackTrace.current);
-        };
-
-        // Setup Simplytics
-        Simplytics.setup(
-          analyticsService: SimplyticsAnalyticsServiceGroup([
-            SimplyticsDebugAnalyticsService(),
-            CustomAnalyticsService(),
-          ]),
-          crashlogService: SimplyticsCrashlogServiceGroup([
-            SimplyticsDebugCrashlogService(),
-            CustomCrashReportingService(),
-          ]),
-        );
-
-        runApp(const MyApp());
-      },
-
-      // Sends fatal errors to Simplytics
-      Simplytics.crashlog.recordFatalError,
-    );
-  }
-
   // Setting up an observer
   static SimplyticsNavigatorObserver observer = SimplyticsNavigatorObserver(
     nameExtractor: (route) => (route.settings is PageRouteSettings)

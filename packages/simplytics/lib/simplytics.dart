@@ -14,4 +14,6 @@ export 'src/crash_reporting/services/crashlog_service_group.dart';
 
 export 'src/navigator/navigator_observer.dart';
 
+export 'src/run_app_guarded.dart';
+
 export 'src/simplytics.dart';

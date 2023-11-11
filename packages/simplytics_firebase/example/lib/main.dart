@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:simplytics/simplytics.dart';
@@ -8,51 +7,37 @@ import 'package:simplytics_firebase/simplytics_firebase.dart';
 import 'package:simplytics_firebase_example/page_route_settings.dart';
 
 void main() {
-  MyApp.run();
+  runAppGuarded(
+    // Initializing Simplytics and creating an application class object
+    () async {
+      // Setup Firebase
+      await Firebase.initializeApp();
+
+      // Setup Simplytics
+      Simplytics.setup(
+        analyticsService: SimplyticsAnalyticsServiceGroup([
+          SimplyticsDebugAnalyticsService(),
+          SimplyticsFirebaseAnalyticsService(FirebaseAnalytics.instance),
+        ]),
+        crashlogService: SimplyticsCrashlogServiceGroup([
+          SimplyticsDebugCrashlogService(),
+          SimplyticsFirebaseCrashlogService(FirebaseCrashlytics.instance),
+        ]),
+      );
+
+      // Set custom analytics user's property
+      Simplytics.analytics.setUserProperty(
+          name: 'app_id', value: 'simplytics_firebase_example');
+
+      return const MyApp();
+    },
+
+    // Sends fatal errors to Simplytics
+    onError: (error, stackTrace) => Simplytics.crashlog.recordFatalError,
+  );
 }
 
 class MyApp extends StatelessWidget {
-  // Runs an application in a zone
-  static void run() {
-    // Initialize Intl & etc.
-
-    runZonedGuarded<Future<void>>(
-      () async {
-        WidgetsFlutterBinding.ensureInitialized();
-
-        FlutterError.onError = (FlutterErrorDetails details) {
-          // Send to Zone handler
-          Zone.current.handleUncaughtError(
-              details.exception, details.stack ?? StackTrace.current);
-        };
-
-        // Setup Firebase
-        await Firebase.initializeApp();
-
-        // Setup Simplytics
-        Simplytics.setup(
-          analyticsService: SimplyticsAnalyticsServiceGroup([
-            SimplyticsDebugAnalyticsService(),
-            SimplyticsFirebaseAnalyticsService(FirebaseAnalytics.instance),
-          ]),
-          crashlogService: SimplyticsCrashlogServiceGroup([
-            SimplyticsDebugCrashlogService(),
-            SimplyticsFirebaseCrashlogService(FirebaseCrashlytics.instance),
-          ]),
-        );
-
-        // Set custom analytics user's property
-        Simplytics.analytics.setUserProperty(
-            name: 'app_id', value: 'simplytics_firebase_example');
-
-        runApp(const MyApp());
-      },
-
-      // Sends fatal errors to Simplytics
-      Simplytics.crashlog.recordFatalError,
-    );
-  }
-
   // Setting up an observer
   static SimplyticsNavigatorObserver observer = SimplyticsNavigatorObserver(
     nameExtractor: (route) => (route.settings is PageRouteSettings)
