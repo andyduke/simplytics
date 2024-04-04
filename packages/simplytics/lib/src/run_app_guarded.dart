@@ -55,8 +55,11 @@ Future<void> runAppGuarded(
     // If there's an error in the error handler, we want to know about it.
     inHandler = true;
 
-    final handler = onError ?? oldOnError;
-    handler?.call(details.exception, details.stack);
+    if (onError != null) {
+      onError(details.exception, details.stack);
+    } else if (oldOnError != null) {
+      oldOnError(details);
+    }
 
     inHandler = false;
   };

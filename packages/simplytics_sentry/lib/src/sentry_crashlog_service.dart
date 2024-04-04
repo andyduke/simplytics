@@ -36,7 +36,8 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace, {reason, bool fatal = false}) async {
+  Future<void> recordError(exception, StackTrace? stackTrace,
+      {reason, bool fatal = false}) async {
     if (!_enabled) return;
 
     /*
