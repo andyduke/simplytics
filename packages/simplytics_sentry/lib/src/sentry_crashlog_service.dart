@@ -48,14 +48,14 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
         for (var info in information) {
           switch (info) {
             case SimplyticsErrorTag _:
-              final value = '${info.value}';
+              final value = info.value.join(', ');
               if (value.isNotEmpty) {
                 scope.setTag(info.name, value);
               }
               break;
 
             case SimplyticsErrorProperty _:
-              final value = '${info.value}';
+              final value = info.value.join(', ');
               if (value.isNotEmpty) {
                 scope.setExtra(info.name, value);
               }
