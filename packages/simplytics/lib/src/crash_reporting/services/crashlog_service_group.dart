@@ -25,10 +25,24 @@ class SimplyticsCrashlogServiceGroup extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace,
-      {reason, bool fatal = false}) {
-    return Future.wait(services.map((s) =>
-        s.recordError(exception, stackTrace, reason: reason, fatal: fatal)));
+  Future<void> recordError(
+    dynamic exception,
+    StackTrace? stackTrace, {
+    dynamic reason,
+    Iterable<Object> information = const [],
+    bool fatal = false,
+  }) {
+    return Future.wait(
+      services.map(
+        (s) => s.recordError(
+          exception,
+          stackTrace,
+          reason: reason,
+          information: information,
+          fatal: fatal,
+        ),
+      ),
+    );
   }
 
   @override

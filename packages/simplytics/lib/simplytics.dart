@@ -11,6 +11,9 @@ export 'src/crash_reporting/crashlog_interface.dart';
 export 'src/crash_reporting/services/default_crash_reporting_service.dart';
 export 'src/crash_reporting/services/debug_crashlog_service.dart';
 export 'src/crash_reporting/services/crashlog_service_group.dart';
+export 'src/crash_reporting/information_properties/error_information_property.dart';
+export 'src/crash_reporting/information_properties/error_tag.dart';
+export 'src/crash_reporting/information_properties/error_property.dart';
 
 export 'src/navigator/navigator_observer.dart';
 

@@ -36,70 +36,52 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace,
-      {reason, bool fatal = false}) async {
+  Future<void> recordError(
+    dynamic exception,
+    StackTrace? stackTrace, {
+    dynamic reason,
+    Iterable<Object> information = const [],
+    bool fatal = false,
+  }) async {
     if (!_enabled) return;
-
-    /*
-    String error = '$exception'.replaceAll('\n', ' ');
-
-    // Add the Error object type as a prefix if it doesn't already have one.
-    if (exception is Error) {
-      final prefix = '${exception.runtimeType}: ';
-      final prefixPattern = RegExp('^${RegExp.escape(prefix)}');
-      if (!prefixPattern.hasMatch(error)) {
-        error = '$prefix$error';
-      }
-    }
-
-    // Pass user properties as segmentation parameters.
-    final segmentation = _userProperties.map((key, value) => MapEntry<String, Object>(key, value));
-
-    await Sentry.logExceptionManual(
-      '$error\n$stackTrace',
-      fatal, // Doesn't work on iOS; on Android the value is inverted.
-      stacktrace: StackTrace.empty,
-      segmentation: segmentation,
-    );
-    */
-
-    // await Sentry.configureScope((scope) => scope.setTag('user.pk', 'ABC'));
 
     await Sentry.captureException(
       exception,
       stackTrace: stackTrace,
-      /*
       withScope: (scope) {
-        // scope.setTag('app.user_id', 'User ABC');
-        // // scope.level = SentryLevel.warning;
-        // scope.setExtra('extra1', 'BCD');
-        // scope.setUser(SentryUser(id: 'AA', name: 'AAAA bbbb'));
+        final List<String> extra = [];
 
-        if (_userProperties.isNotEmpty) {
-          scope.setContexts('User Properties', _userProperties);
-        } else {
-          scope.removeContexts('User Properties');
-        }
+        for (var info in information) {
+          switch (info) {
+            case SimplyticsErrorTag:
+              final tag = info as SimplyticsErrorTag;
+              final value = '${tag.value}';
+              if (value.isNotEmpty) {
+                scope.setTag(tag.name, value);
+              }
+              break;
 
-        if (_userId != null) {
-          scope.setUser(SentryUser(id: _userId));
-          scope.setTag('session.user_id', _userId!);
-        } else {
-          scope.setUser(null);
-          scope.removeTag('session.user_id');
+            case SimplyticsErrorProperty:
+              final prop = info as SimplyticsErrorProperty;
+              final value = '${prop.value}';
+              if (value.isNotEmpty) {
+                scope.setExtra(prop.name, value);
+              }
+              break;
+
+            default:
+              final str = info.toString();
+              if (str.isNotEmpty) {
+                extra.add(str);
+              }
+          }
+
+          if (extra.isNotEmpty) {
+            scope.setExtra('Information', extra.join('\n\n'));
+          }
         }
       },
-      */
-      // hint: Hint.withMap({
-      //   'custom_prop1': 'Test 1',
-      // }),
-      // hint: Hint.withMap({
-      //   ..._userProperties.map((key, value) => MapEntry<String, Object>(key, value)),
-      //   // if (_message != null) 'message': _message!,
-      // }),
     );
-
-    // _message = null;
   }
 
   @override

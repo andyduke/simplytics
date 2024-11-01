@@ -18,25 +18,25 @@ SentryFlutter.init(
     ..debug = true
     ..diagnosticLevel = SentryLevel.debug,
     appRunner: () => runAppGuarded(
-      // Setup Simplytics
-      Simplytics.setup(
-        analyticsService: SimplyticsAnalyticsServiceGroup([
-          SimplyticsDebugAnalyticsService(),
-        ]),
-        crashlogService: SimplyticsCrashlogServiceGroup([
-          SimplyticsDebugCrashlogService(),
-          SimplyticsSentryCrashlogService(),
-        ]),
-      );
-  
-      return const MyApp();
-    },
-    // It is important to enable this setting when using SentryFlutter
-    runAppAfterSetup: true,
-    onError: (error, stackTrace) {
-      Simplytics.crashlog.recordFatalError(error, stackTrace);
-    },
-  ),
+      () async {
+        // Setup Simplytics
+        Simplytics.setup(
+          crashlogService: SimplyticsCrashlogServiceGroup([
+            SimplyticsDebugCrashlogService(),
+            SimplyticsSentryCrashlogService(),
+          ]),
+        );
+    
+        return const MyApp();
+      },
+      
+      // It is important to enable this setting when using Sentry
+      runAppAfterSetup: true,
+
+      onError: (error, stackTrace) {
+        Simplytics.crashlog.recordFatalError(error, stackTrace);
+      },
+    ),
 );
 ```
 

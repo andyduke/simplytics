@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:simplytics/simplytics.dart';
 import 'package:simplytics_example/page_route_settings.dart';
@@ -242,13 +243,28 @@ class _ErrorDemoPageState extends State<ErrorDemoPage> {
   }
 
   void _recordError() {
-    Simplytics.crashlog
-        .recordError('Some error', StackTrace.current, reason: 'FakeException');
+    Simplytics.crashlog.recordError(
+      'Some error',
+      StackTrace.current,
+      information: [
+        ErrorHint('Error hint...'),
+        ErrorDescription('Error description...'),
+        ErrorSummary('Error summary...'),
+        ErrorSpacer(),
+        SimplyticsErrorTag('tag1', 7),
+        SimplyticsErrorProperty('prop1', 'a'),
+      ],
+      reason: 'FakeException',
+    );
   }
 
   void _recordFatalError() {
-    Simplytics.crashlog.recordError('Some error', StackTrace.current,
-        reason: 'FakeException', fatal: true);
+    Simplytics.crashlog.recordError(
+      'Some error',
+      StackTrace.current,
+      reason: 'FakeException',
+      fatal: true,
+    );
   }
 
   void _throwException() {

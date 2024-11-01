@@ -1,6 +1,6 @@
 name: simplytics_firebase
 description: Implementation of Firebase Analytics and Crashlytics services for Simplytics.
-version: 2.0.0
+version: 3.0.0
 author: Andy Chentsov <chentsov@gmail.com>
 homepage: https://github.com/andyduke/simplytics/tree/master/packages/simplytics_firebase
 repository: https://github.com/andyduke/simplytics
@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  simplytics: ^2.0.0
+  simplytics: ^3.0.0
   firebase_analytics: ^10.1.0
   firebase_crashlytics: ^3.0.10
 

@@ -30,9 +30,10 @@ class SimplyticsFirebaseAnalyticsService extends SimplyticsAnalyticsInterface {
 
   @override
   Future<void> routeStart({required String name, String? screenClassOverride}) {
-    return analytics.setCurrentScreen(
-        screenName: name,
-        screenClassOverride: screenClassOverride ?? 'Flutter');
+    return analytics.logScreenView(
+      screenName: name,
+      screenClass: screenClassOverride ?? 'Flutter',
+    );
   }
 
   @override

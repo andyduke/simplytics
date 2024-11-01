@@ -9,8 +9,13 @@ class SimplyticsDefaultCrashlogService extends SimplyticsCrashlogInterface {
   Future<void> log(String message) async {}
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace,
-      {reason, bool fatal = false}) async {}
+  Future<void> recordError(
+    dynamic exception,
+    StackTrace? stackTrace, {
+    dynamic reason,
+    Iterable<Object> information = const [],
+    bool fatal = false,
+  }) async {}
 
   @override
   Future<void> setCustomKey(String key, Object value) async {}

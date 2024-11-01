@@ -88,7 +88,16 @@ Future<void> runAppGuarded(
 
   // Run the application
   if (!runAppAfterSetup) {
-    runApp(app!);
+    if (app != null) {
+      runApp(app);
+    } else {
+      final e = Exception('Failed to create application object.');
+      if (onError != null) {
+        onError(e, StackTrace.current);
+      } else {
+        throw e;
+      }
+    }
   } else {
     runApp(await runner());
   }

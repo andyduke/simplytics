@@ -1,6 +1,6 @@
 name: simplytics_sentry
 description: Implementation of Sentry and GlitchTip integration for Simplytics.
-version: 1.0.0
+version: 3.0.0
 author: Andy Chentsov <chentsov@gmail.com>
 homepage: https://github.com/andyduke/simplytics/tree/master/packages/simplytics_sentry
 repository: https://github.com/andyduke/simplytics
@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  simplytics: ^2.0.0
+  simplytics: ^3.0.0
   sentry_flutter: ^7.10.1
 
 dev_dependencies:

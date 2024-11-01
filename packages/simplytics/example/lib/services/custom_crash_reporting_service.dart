@@ -16,8 +16,13 @@ class CustomCrashReportingService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace,
-      {reason, bool fatal = false}) async {
+  Future<void> recordError(
+    dynamic exception,
+    StackTrace? stackTrace, {
+    dynamic reason,
+    Iterable<Object> information = const [],
+    bool fatal = false,
+  }) async {
     if (_enabled) {
       developer.log(
         '•• ${fatal ? 'Fatal ' : ''}Error${(reason != null) ? ': $reason' : ''}',

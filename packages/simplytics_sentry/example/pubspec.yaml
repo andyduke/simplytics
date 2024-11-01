@@ -1,0 +1,34 @@
+name: simplytics_sentry_example
+description: Simplytics Sentry example.
+publish_to: 'none'
+version: 1.0.0+2
+
+environment:
+  sdk: '>=2.18.5 <4.0.0'
+  flutter: ">=3.7.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  simplytics:
+    path: ../../simplytics
+  simplytics_sentry:
+    path: ../
+  sentry_flutter: ^7.10.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+dependency_overrides:
+  simplytics:
+    path: ../../simplytics
+  simplytics_sentry:
+    path: ../
+
+flutter:
+  uses-material-design: true
+

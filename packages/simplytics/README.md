@@ -2,7 +2,7 @@
 
 Simple and lightweight **Analytics** and **Crash Reporting** abstraction.
 
-Simplytics is a simple abstraction for analytics and crash reports that allows you to connect several different analytics and error monitoring services such as *Firebase Analytics* and *Crashlytics*, as well as simple logging of events to the system log.
+Simplytics is a simple abstraction for analytics and crash reports that allows you to connect several different analytics and error monitoring services such as *Firebase Analytics* and *Crashlytics*, *Sentry*, as well as simple logging of events to the system log.
 
 ## Features
 
@@ -12,6 +12,7 @@ Simplytics is a simple abstraction for analytics and crash reports that allows y
 - Easily debug events and send them to the system log
 - Easily connect new analytics and error monitoring services
 - Easily connect **Firebase Analytics** and **Crashlytics** using [simplytics_firebase](https://pub.dev/packages/simplytics_firebase) package
+- Easily connect **Sentry** and **Glitchtip** using [simplytics_sentry](https://pub.dev/packages/simplytics_sentry) package
 
 ## Table of Contents
 
@@ -164,6 +165,43 @@ You can send error information to the error monitoring service using the `record
 Simplytics.crashlog.recordError('Entity not found.', StackTrace.current, reason: 'NotFoundException');
 ```
 
+#### Adding additional information to a report
+
+When sending a report, you can specify additional information, such as a custom property in the form *"name=value"*, *tag*, etc. To do this, you need to pass one or more objects to the `information` parameter. Simplytics has two predefined objects for describing properties and a tag:
+- `SimplyticsErrorProperty` - for a custom property;
+- `SimplyticsErrorTag` - for a tag.
+
+For example, to tag a report with the "flow", you can pass `SimplyticsErrorTag`:
+```dart
+Simplytics.crashlog.recordError(
+  'User not found.',
+  StackTrace.current,
+  reason: 'UserNotFoundException',
+  information: [
+    SimplyticsErrorTag('flow', 1),
+  ],
+);
+```
+
+The property is added in the same way. You can add several tags and properties at once:
+```dart
+Simplytics.crashlog.recordError(
+  'User not found.',
+  StackTrace.current,
+  reason: 'UserNotFoundException',
+  information: [
+    SimplyticsErrorTag('flow', 1),
+    SimplyticsErrorProperty('region', 'local'),
+    SimplyticsErrorProperty('code', 321),
+  ],
+);
+```
+
+You can also pass other objects, such as `ErrorHint`, `ErrorDescription`, `ErrorSummary`, `ErrorSpacer` and any other dart objects. All of them will be converted to a string and passed along with the report.
+
+> Depending on the implementation of the error monitoring service, attaching additional information to the report may differ. For example, in **Firebase Crashlytics**, tags, properties, and other objects are sent as a block of additional information. In **Sentry**, tags are sent as tags, which allows you to filter reports by tags.
+
+
 ### Set user identity and custom properties
 
 You can store the user identity to the analytics and error monitoring services using the `setUserId` method of the corresponding objects:
@@ -280,8 +318,20 @@ class CustomFirebaseCrashlogService extends SimplyticsCrashlogInterface {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace? stackTrace, {reason, bool fatal = false}) {
-    return crashlytics.recordError(exception, stackTrace, reason: reason, fatal: fatal);
+  Future<void> recordError(
+    dynamic exception,
+    StackTrace? stackTrace, {
+    dynamic reason,
+    Iterable<Object> information = const [],
+    bool fatal = false,
+  }) {
+    return crashlytics.recordError(
+      exception,
+      stackTrace,
+      reason: reason,
+      information: information,
+      fatal: fatal,
+    );
   }
 
   @override
