@@ -13,14 +13,10 @@ import 'package:simplytics/simplytics.dart';
 class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
   static const bool defaultEnabled = true;
 
-  // static String userIdPropertyName = 'User ID';
-
   bool _enabled = defaultEnabled;
 
   final Map<String, dynamic> _userProperties = {};
   String? _userId;
-
-  // String? _message;
 
   SimplyticsSentryCrashlogService({
     bool enabled = defaultEnabled,
@@ -29,8 +25,6 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
   @override
   Future<void> log(String message) async {
     if (!_enabled) return;
-
-    // _message = message;
 
     await Sentry.captureMessage(message);
   }
@@ -53,19 +47,17 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
 
         for (var info in information) {
           switch (info) {
-            case SimplyticsErrorTag:
-              final tag = info as SimplyticsErrorTag;
-              final value = '${tag.value}';
+            case SimplyticsErrorTag _:
+              final value = '${info.value}';
               if (value.isNotEmpty) {
-                scope.setTag(tag.name, value);
+                scope.setTag(info.name, value);
               }
               break;
 
-            case SimplyticsErrorProperty:
-              final prop = info as SimplyticsErrorProperty;
-              final value = '${prop.value}';
+            case SimplyticsErrorProperty _:
+              final value = '${info.value}';
               if (value.isNotEmpty) {
-                scope.setExtra(prop.name, value);
+                scope.setExtra(info.name, value);
               }
               break;
 
@@ -94,15 +86,6 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
       _userProperties.remove(key);
     }
 
-    /*
-    final scope = Sentry.currentHub.scope;
-    if (_userProperties.isNotEmpty) {
-      scope.setContexts('User Properties', _userProperties);
-    } else {
-      scope.removeContexts('User Properties');
-    }
-    */
-
     await Sentry.configureScope((scope) {
       if (_userProperties.isNotEmpty) {
         scope.setContexts('User Properties', _userProperties);
@@ -110,34 +93,13 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
         scope.removeContexts('User Properties');
       }
     });
-
-    // await Sentry.configureScope((scope) => scope.setContexts(key, value));
   }
 
   @override
   Future<void> setUserId(String id) async {
     if (!_enabled) return;
 
-    // if (id.isNotEmpty) {
-    //   _userProperties[userIdPropertyName] = id;
-    // } else {
-    //   _userProperties.remove(userIdPropertyName);
-    // }
-
-    // await Sentry.configureScope((scope) => scope.setUser(SentryUser(id: id)));
-
     _userId = id.isNotEmpty ? id : null;
-
-    /*
-    final scope = Sentry.currentHub.scope;
-    if (_userId != null) {
-      scope.setUser(SentryUser(id: _userId));
-      scope.setTag('session.user_id', _userId!);
-    } else {
-      scope.setUser(null);
-      scope.removeTag('session.user_id');
-    }
-    */
 
     await Sentry.configureScope((scope) {
       if (_userId != null) {

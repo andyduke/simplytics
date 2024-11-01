@@ -1,3 +1,7 @@
+## 3.0.1
+
+* Fixed a bug with processing tags and custom properties
+
 ## 3.0.0
 
 * First public release
