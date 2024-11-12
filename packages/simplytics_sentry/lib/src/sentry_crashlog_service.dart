@@ -57,7 +57,7 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
             case SimplyticsErrorProperty _:
               final value = info.value.join(', ');
               if (value.isNotEmpty) {
-                scope.setExtra(info.name, value);
+                scope.setContexts(info.name, value);
               }
               break;
 
@@ -69,7 +69,7 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
           }
 
           if (extra.isNotEmpty) {
-            scope.setExtra('Information', extra.join('\n\n'));
+            scope.setContexts('Information', extra.join('\n\n'));
           }
         }
       },

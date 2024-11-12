@@ -16,8 +16,13 @@ abstract class SimplyticsCrashlogInterface {
     dynamic reason,
     Iterable<Object> information = const [],
   }) =>
-      recordError(exception, stackTrace,
-          reason: reason, information: information, fatal: true);
+      recordError(
+        exception,
+        stackTrace,
+        reason: reason,
+        information: information,
+        fatal: true,
+      );
 
   /// Logs a [message].
   /// Typically, this message is sent with the following error report.

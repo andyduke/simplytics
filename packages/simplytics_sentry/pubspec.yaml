@@ -1,6 +1,6 @@
 name: simplytics_sentry
 description: Implementation of Sentry and GlitchTip integration for Simplytics.
-version: 3.0.1
+version: 3.1.0
 author: Andy Chentsov <chentsov@gmail.com>
 homepage: https://github.com/andyduke/simplytics/tree/master/packages/simplytics_sentry
 repository: https://github.com/andyduke/simplytics
