@@ -7,18 +7,18 @@ repository: https://github.com/andyduke/simplytics
 issue_tracker: https://github.com/andyduke/simplytics/issues
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.8.0
 
 dependencies:
   flutter:
     sdk: flutter
   simplytics: ^3.0.0
-  sentry_flutter: ^7.10.1
+  sentry_flutter: ^9.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
 

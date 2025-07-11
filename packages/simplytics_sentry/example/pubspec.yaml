@@ -15,13 +15,13 @@ dependencies:
     path: ../../simplytics
   simplytics_sentry:
     path: ../
-  sentry_flutter: ^7.10.1
+  sentry_flutter: ^9.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 dependency_overrides:
   simplytics:
