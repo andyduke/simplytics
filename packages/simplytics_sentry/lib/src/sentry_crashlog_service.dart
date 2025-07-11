@@ -18,9 +18,8 @@ class SimplyticsSentryCrashlogService extends SimplyticsCrashlogInterface {
   final Map<String, dynamic> _userProperties = {};
   String? _userId;
 
-  SimplyticsSentryCrashlogService({
-    bool enabled = defaultEnabled,
-  }) : _enabled = enabled;
+  SimplyticsSentryCrashlogService({bool enabled = defaultEnabled})
+    : _enabled = enabled;
 
   @override
   Future<void> log(String message) async {
